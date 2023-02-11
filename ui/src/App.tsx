@@ -1,46 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react"
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import LandingPage from "./pages/Landing";
+import Enhanced from "./pages/Enhanced";
 
-import {getResponse} from './services';
+export interface IAppPageProps {}
 
-
-export interface IServiceDataProps {
-  data: any;
-}
-
-
-function App() {
-  const [serviceData, setServiceData] = useState<IServiceDataProps>({data:{}});
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  const getNewItem = () => {
-    getResponse('/apod').then((res)=>{
-      console.log('res', res.data);
-      setIsLoaded(true);
-      setServiceData(res.data);  
-    });
-  }
-
-  useEffect(()=>{
-    getNewItem();
-    // getResponse('/apod').then((res)=>{
-    //   console.log('res', res.data);
-    //   setIsLoaded(true);
-    //   setServiceData(res.data);  
-    // });
-    console.log('serviceData', serviceData)
-  }, []);
+const AppPage: React.FC<IAppPageProps> = props => {
   return (
-    <div className="App">
-      <header className="App-header">
-        {isLoaded && serviceData && (<img src={serviceData.data[0].url} />)} 
-        <button onClick={()=>getNewItem()}>
-          new image
-        </button>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        {/* 
+          ###########################################################
+          This is an example stup of how to implement a new route,
+          along with parameters to pass
+          ###########################################################
+        */}
+        <Route path="enhanced">
+          <Route index element={<Enhanced />} />
+          <Route path=":date" element={<Enhanced />} />
+          <Route path=":date/image/:imageName" element={<Enhanced />} />
+        </Route>  
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
-export default App;
+export default AppPage;
