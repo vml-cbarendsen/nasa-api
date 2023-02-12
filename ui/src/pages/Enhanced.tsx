@@ -15,8 +15,6 @@ const Enhanced: React.FC<IEnhancedProps> = () => {
 
   useEffect(()=>{
     getResponse('/enhanced').then((res)=>{
-      console.log('list of dates res', res.data);
-     
       setListOfDates(res.data.data);  
     });
   }, []);
@@ -28,25 +26,20 @@ const Enhanced: React.FC<IEnhancedProps> = () => {
   },[date]);
 
   useEffect(()=>{
-    getResponse(`/enhanced/${date}/image/${imageName}`).then((res)=>{
-      console.log('image response', res.data.path);
-      setFullPathToImage(res.data.path);  
-    });
+    getResponse(`/enhanced/${date}/image/${imageName}`)
+      .then((res)=>{
+        setFullPathToImage(res.data.path);  
+      });
   }, [imageName]);
-
-  console.log('list of dates', listOfDates);
-  console.log('image path', fullPathToImage);
 
   // ONLY DATE ROUTE
   if(date && !imageName) {
-    // [TODO] make call to /enahnced/:date
-    
     return (
       <>
         <button onClick={()=>navigate(-1)}>
           Go back
         </button>
-        <h2>You will need to choose a date</h2>
+        <h2>You will need to choose an image</h2>
         {listOfImages && (
           listOfImages?.map((d:{caption:string,image:string}, idx:number) =>
             <li key={idx}>
@@ -64,7 +57,6 @@ const Enhanced: React.FC<IEnhancedProps> = () => {
 
   // DATE && IMAGE ROUTE 
   if(date && imageName) {
-    // [TODO] make call to /enahnced/:date/image/:imageName
     return (
       <>
         <button onClick={()=>navigate(-1)}>
@@ -78,8 +70,6 @@ const Enhanced: React.FC<IEnhancedProps> = () => {
     )
   }
 
-  // if(date && imageName)
-  console.log(`${date} and ${imageName}`);
   return (
     <>
       <button onClick={()=>navigate(-1)}>

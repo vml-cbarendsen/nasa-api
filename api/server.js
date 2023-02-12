@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const apodRoutes = require('./routes/apod.route');
+const apodRoutes = require('./routes/planetary.route');
 const enhancedRoutes = require('./routes/enhanced.route');
 
 const app = express();
